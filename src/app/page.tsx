@@ -1,155 +1,366 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts } from "@/lib/posts";
+import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { SectionHeader } from "@/components/ui/section-header";
 
-const TECH = ["TypeScript", "Roblox / Luau", "Next.js", "Node.js", "AI workflows"];
+const TECH = [
+  "TypeScript",
+  "Roblox · Luau",
+  "Next.js",
+  "Node.js",
+  "AI workflows",
+];
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
+const PROJECT = {
+  name: "Discord Mod Simulator",
+  emoji: "🎮",
+  tagline: "Wave-based survival on Roblox. Social commentary + humor.",
+  platform: "ROBLOX",
+  milestones: [
+    { label: "Project setup & folder structure", done: true },
+    { label: "Core scripts scaffolded", done: true },
+    { label: "Basic map with channels", done: true },
+    { label: "First successful play test", done: true },
+    { label: "Enemy spawning system", done: false },
+    { label: "Ban Hammer tool", done: false },
+    { label: "Server health & win / lose", done: false },
+  ],
+};
+
+function formatDate(d: string) {
+  return new Date(d).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
 }
 
+function daysSince(dateStr: string): number {
+  const ms = Date.now() - new Date(dateStr).getTime();
+  return Math.max(1, Math.ceil(ms / (1000 * 60 * 60 * 24)));
+}
+
 export default function HomePage() {
   const posts = getAllPosts();
+  const firstPost = posts[posts.length - 1];
+  const daysBuilding = firstPost ? daysSince(firstPost.date) : 1;
+  const completed = PROJECT.milestones.filter((m) => m.done).length;
+  const total = PROJECT.milestones.length;
+  const progressPct = Math.round((completed / total) * 100);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 md:px-6">
+    <>
+      {/* ═══ HERO ═══ */}
+      <section className="pt-20 pb-20 md:pt-28 md:pb-24">
+        <Container size="wide">
+          <div className="grid items-center gap-12 md:grid-cols-[1.3fr_1fr] md:gap-16">
+            {/* Left column */}
+            <div className="animate-fade-up order-2 md:order-1">
+              <Eyebrow pulse tone="cyan" className="mb-6">
+                Status: Building
+              </Eyebrow>
 
-      {/* ── Hero ──────────────────────────────────────────────────────── */}
-      <section className="py-20 md:py-28 flex flex-col items-center text-center">
+              <h1 className="mb-5 text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
+                Hey, I&apos;m <span className="gradient-text">Miggy</span>
+              </h1>
 
-        {/* Avatar */}
-        <div className="relative mb-6">
-          <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-cyan-400/40 ring-offset-4 ring-offset-zinc-950">
-            <img
-              src="/images/avatar.gif"
-              alt="Miggy"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <span
-            className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 bg-cyan-400 rounded-full border-2 border-zinc-950"
-            title="Currently building"
-          />
-        </div>
-
-        <p className="font-mono text-xs text-zinc-500 uppercase tracking-widest mb-2">
-          hey, i&apos;m
-        </p>
-        <h1 className="text-5xl md:text-7xl font-bold text-zinc-100 tracking-tight mb-4">
-          Miggy
-        </h1>
-        <p className="text-zinc-400 text-lg max-w-sm leading-relaxed mb-2">
-          Software engineer building games, tools & experiments.
-        </p>
-        <p className="font-mono text-sm text-zinc-600 mb-8">
-          Build fast. Ship often. Learn in public.
-        </p>
-
-        {/* Tech stack */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {TECH.map((t) => (
-            <span
-              key={t}
-              className="px-3 py-1.5 text-xs font-medium rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-
-        {/* Currently Building */}
-        <div className="w-full max-w-sm border border-cyan-400/20 bg-cyan-400/5 rounded-2xl p-5 text-left">
-          <p className="font-mono text-xs text-cyan-400 uppercase tracking-widest mb-3">
-            Currently Building
-          </p>
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="font-semibold text-zinc-100 text-sm mb-1">
-                🎮 Discord Mod Simulator
+              <p className="mb-3 max-w-lg text-lg leading-relaxed text-zinc-400 md:text-xl">
+                Software engineer building games, tools &amp; experiments.
               </p>
-              <p className="text-xs text-zinc-500 leading-relaxed">
-                Wave-based survival on Roblox · Social commentary + humor
+
+              <p className="mb-8 font-mono text-sm text-zinc-500">
+                Build fast
+                <span className="mx-2 text-cyan-400/60">·</span>
+                Ship often
+                <span className="mx-2 text-cyan-400/60">·</span>
+                Learn in public
               </p>
+
+              <div className="mb-10 flex flex-wrap gap-2">
+                {TECH.map((t) => (
+                  <Badge key={t} className="rounded-md px-2.5 py-1 text-[11px] normal-case tracking-normal font-sans">
+                    {t}
+                  </Badge>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg">
+                  <Link href="/posts">
+                    View Latest Log
+                    <span aria-hidden>→</span>
+                  </Link>
+                </Button>
+                <Button asChild variant="secondary" size="lg">
+                  <a
+                    href="https://github.com/miggy619/miggy-devlog"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    GitHub <span className="text-zinc-500" aria-hidden>↗</span>
+                  </a>
+                </Button>
+              </div>
             </div>
-            <Link
-              href="/posts"
-              className="shrink-0 font-mono text-xs text-cyan-400 hover:text-cyan-300 transition-colors whitespace-nowrap mt-0.5"
-            >
-              Dev Log →
-            </Link>
-          </div>
-        </div>
 
+            {/* Right column — avatar */}
+            <div className="animate-fade-up order-1 flex flex-col items-center md:order-2 md:items-end">
+              <div className="relative">
+                {/* Outer glow */}
+                <div
+                  aria-hidden
+                  className="animate-float absolute inset-0 scale-110 rounded-full bg-gradient-to-br from-cyan-400/40 via-violet-400/30 to-cyan-400/20 blur-3xl"
+                />
+                {/* Ring wrapper */}
+                <div className="relative h-44 w-44 rounded-full ring-2 ring-cyan-400/50 ring-offset-[6px] ring-offset-zinc-950 md:h-52 md:w-52">
+                  <div className="relative h-full w-full overflow-hidden rounded-full">
+                    <Image
+                      src="/images/avatar.gif"
+                      alt="Miggy"
+                      fill
+                      unoptimized
+                      priority
+                      sizes="(min-width: 768px) 208px, 176px"
+                      className="object-cover"
+                    />
+                  </div>
+                  {/* Live dot */}
+                  <span
+                    aria-hidden
+                    className="absolute bottom-2 right-2 flex h-5 w-5 items-center justify-center rounded-full border-4 border-zinc-950 bg-emerald-400"
+                  >
+                    <span className="absolute h-2 w-2 animate-ping rounded-full bg-emerald-300 opacity-75" />
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-5 flex items-center gap-3 font-mono text-xs">
+                <span className="flex items-center gap-1.5 text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  online
+                </span>
+                <span className="text-zinc-700">/</span>
+                <span className="text-zinc-500">day {daysBuilding}</span>
+              </div>
+            </div>
+          </div>
+        </Container>
       </section>
 
-      {/* ── Latest Posts ──────────────────────────────────────────────── */}
-      <section className="pb-24">
-        <h2 className="flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-6">
-          <span className="text-cyan-400">▸</span> Latest Posts
-        </h2>
+      {/* ═══ STATS STRIP ═══ */}
+      <section className="pb-20">
+        <Container size="wide">
+          <div className="grid grid-cols-3 divide-x divide-zinc-800 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/60 backdrop-blur-sm">
+            <StatCell label="Logs" value={posts.length} />
+            <StatCell label="Building" value="1" accent />
+            <StatCell label="Day" value={daysBuilding} />
+          </div>
+        </Container>
+      </section>
 
-        {posts.length === 0 ? (
-          <p className="text-sm text-zinc-600 py-12 text-center">No posts yet.</p>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {posts.slice(0, 5).map((post) => (
-              <Link
-                key={post.slug}
-                href={`/posts/${post.slug}`}
-                className="group flex items-stretch border border-zinc-800 hover:border-cyan-400/30 bg-zinc-900/40 hover:bg-zinc-900/70 rounded-xl overflow-hidden card-glow"
-              >
-                {post.image && (
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    style={{ width: '128px', height: '96px', objectFit: 'cover', flexShrink: 0, display: 'block' }}
-                  />
-                )}
-                <div className="p-4 flex flex-col justify-between flex-1 min-w-0">
-                  <div>
-                    <h3 className="font-semibold text-zinc-100 group-hover:text-cyan-400 transition-colors duration-150 mb-1.5 leading-snug">
-                      {post.title}
-                    </h3>
-                    {post.summary && (
-                      <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2">
-                        {post.summary}
-                      </p>
-                    )}
+      {/* ═══ NOW BUILDING ═══ */}
+      <section className="pb-20">
+        <Container size="wide">
+          <div className="gradient-border-wrap">
+            <div className="relative overflow-hidden rounded-[calc(1rem-1px)] bg-zinc-950/90 p-6 md:p-10 corner-brackets">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -right-20 -top-20 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.05] blur-3xl"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -left-10 -bottom-20 h-[400px] w-[400px] rounded-full bg-violet-400/[0.04] blur-3xl"
+              />
+
+              <div className="relative grid gap-10 md:grid-cols-[1fr_1.1fr]">
+                {/* Left: project info */}
+                <div>
+                  <Eyebrow pulse tone="cyan" className="mb-5">
+                    Now Building
+                  </Eyebrow>
+
+                  <div className="mb-3 flex items-center gap-3">
+                    <span className="text-4xl">{PROJECT.emoji}</span>
+                    <h2 className="text-2xl font-bold tracking-tight text-zinc-100 md:text-3xl">
+                      {PROJECT.name}
+                    </h2>
                   </div>
-                  <div className="flex items-center gap-2.5 flex-wrap mt-4">
-                    <time className="font-mono text-xs text-zinc-600">
-                      {formatDate(post.date)}
-                    </time>
-                    {post.tags?.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 font-mono text-xs rounded bg-zinc-800 text-zinc-500"
-                      >
-                        {tag}
+
+                  <p className="mb-8 max-w-md text-sm leading-relaxed text-zinc-400 md:text-base">
+                    {PROJECT.tagline}
+                  </p>
+
+                  <div className="mb-6">
+                    <div className="mb-2 flex items-center justify-between font-mono text-xs">
+                      <span className="uppercase tracking-[0.2em] text-zinc-500">
+                        Progress
                       </span>
-                    ))}
+                      <span className="text-cyan-400 tabular-nums">
+                        {completed}/{total}{" "}
+                        <span className="text-zinc-700">· {progressPct}%</span>
+                      </span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full border border-zinc-800 bg-zinc-900">
+                      <div
+                        className="h-full bg-gradient-to-r from-cyan-400 via-cyan-300 to-violet-400 shadow-[0_0_12px_rgba(34,211,238,0.6)] transition-[width] duration-700 ease-out"
+                        style={{ width: `${progressPct}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Badge variant="outline">{PROJECT.platform}</Badge>
+                    <Link
+                      href="/posts"
+                      className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.15em] text-cyan-400 transition-colors hover:text-cyan-300"
+                    >
+                      Read dev log
+                      <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+                    </Link>
                   </div>
                 </div>
-              </Link>
-            ))}
-          </div>
-        )}
 
-        {posts.length > 5 && (
-          <div className="mt-6">
-            <Link
-              href="/posts"
-              className="font-mono text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
-            >
-              View all {posts.length} posts →
-            </Link>
+                {/* Right: milestones */}
+                <div>
+                  <div className="mb-5 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+                    Milestones
+                  </div>
+                  <ul className="space-y-3">
+                    {PROJECT.milestones.map((m, i) => (
+                      <li
+                        key={m.label}
+                        className="flex items-center gap-3 font-mono text-sm"
+                        style={{ animationDelay: `${i * 40}ms` }}
+                      >
+                        <span
+                          className={
+                            m.done
+                              ? "flex h-5 w-5 shrink-0 items-center justify-center rounded border border-cyan-400/50 bg-cyan-400/15 text-[11px] font-bold text-cyan-400"
+                              : "flex h-5 w-5 shrink-0 items-center justify-center rounded border border-zinc-800 bg-zinc-900 text-zinc-700"
+                          }
+                          aria-hidden
+                        >
+                          {m.done ? "✓" : ""}
+                        </span>
+                        <span
+                          className={
+                            m.done
+                              ? "text-zinc-200"
+                              : "text-zinc-600"
+                          }
+                        >
+                          {m.label}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+        </Container>
       </section>
 
+      {/* ═══ LATEST LOGS ═══ */}
+      <section className="pb-24">
+        <Container size="wide">
+          <SectionHeader
+            eyebrow="Latest Logs"
+            action={{ label: "view all", href: "/posts" }}
+          />
+
+          {posts.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-zinc-800 bg-zinc-950/40 py-16 text-center font-mono text-sm text-zinc-600">
+              {"// archive empty"}
+            </div>
+          ) : (
+            <ul className="grid gap-4 md:grid-cols-2">
+              {posts.slice(0, 4).map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    href={`/posts/${post.slug}`}
+                    className="group relative block h-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/60 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-400/30 hover:bg-zinc-900/60 card-glow"
+                  >
+                    {post.image && (
+                      <div className="relative aspect-[16/7] w-full overflow-hidden border-b border-zinc-800">
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          sizes="(min-width: 768px) 50vw, 100vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent" />
+                      </div>
+                    )}
+
+                    <div className="flex flex-col gap-3 p-5">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <time className="font-mono text-[10px] uppercase tracking-[0.15em] text-zinc-500">
+                          {formatDate(post.date)}
+                        </time>
+                        {post.tags?.slice(0, 3).map((tag) => (
+                          <Badge key={tag} variant="default">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                      <h3 className="text-lg font-semibold leading-snug tracking-tight text-zinc-100 transition-colors group-hover:text-cyan-400">
+                        {post.title}
+                      </h3>
+                      {post.summary && (
+                        <p className="line-clamp-2 text-sm leading-relaxed text-zinc-500">
+                          {post.summary}
+                        </p>
+                      )}
+                      <div className="mt-1 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-400 opacity-0 transition-opacity group-hover:opacity-100">
+                        Read <span aria-hidden>→</span>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Container>
+      </section>
+    </>
+  );
+}
+
+function StatCell({
+  label,
+  value,
+  accent = false,
+}: {
+  label: string;
+  value: React.ReactNode;
+  accent?: boolean;
+}) {
+  return (
+    <div className="relative px-5 py-6 text-center md:px-6 md:py-7">
+      <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+        {label}
+      </div>
+      <div
+        className={
+          accent
+            ? "font-mono text-2xl font-bold tabular-nums text-cyan-400 md:text-3xl"
+            : "font-mono text-2xl font-bold tabular-nums text-zinc-100 md:text-3xl"
+        }
+      >
+        {value}
+      </div>
+      {accent && (
+        <div
+          aria-hidden
+          className="absolute bottom-0 left-1/2 h-px w-16 -translate-x-1/2 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+        />
+      )}
     </div>
   );
 }

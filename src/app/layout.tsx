@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ClientThemeProvider } from "@/components/ThemeProvider";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { AmbientBackground } from "@/components/AmbientBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "miggy.log",
-  description: "Software engineer building games, tools & experiments. Build fast. Ship often. Learn in public.",
+  title: "miggy.log — dev log & experiments",
+  description:
+    "Software engineer building games, tools & experiments. Build fast. Ship often. Learn in public.",
 };
 
 export default function RootLayout({
@@ -30,11 +32,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-zinc-950 text-zinc-100 transition-colors duration-200">
-        <ClientThemeProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-        </ClientThemeProvider>
+      <body className="relative min-h-screen bg-zinc-950 text-zinc-100 font-sans flex flex-col">
+        <AmbientBackground />
+        <Navbar />
+        <main className="relative z-10 flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
