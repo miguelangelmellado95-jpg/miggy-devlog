@@ -130,6 +130,9 @@ function PostRow({
               View ↗
             </Link>
           </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/admin/edit/${post.slug}`}>Edit</Link>
+          </Button>
           <Button
             variant="outline"
             size="sm"

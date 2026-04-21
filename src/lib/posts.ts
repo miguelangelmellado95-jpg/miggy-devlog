@@ -33,6 +33,21 @@ export async function getPostBySlug(slug: string) {
   };
 }
 
+export function getPostRawBySlug(
+  slug: string,
+): (PostMeta & { body: string }) | null {
+  const fullPath = path.join(postsDirectory, `${slug}.md`);
+  if (!fs.existsSync(fullPath)) return null;
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const matterResult = matter(fileContents);
+
+  return {
+    slug,
+    body: matterResult.content,
+    ...(matterResult.data as Omit<PostMeta, "slug">),
+  };
+}
+
 export function getAllPosts(): PostMeta[] {
   const fileNames = fs.readdirSync(postsDirectory);
 
