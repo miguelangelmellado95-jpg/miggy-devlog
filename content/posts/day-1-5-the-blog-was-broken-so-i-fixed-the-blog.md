@@ -21,13 +21,6 @@ Plan for today was enemy spawning. Plan got hijacked.
   - Rebuilt the homepage as a "Dev HUD" — cursor-follow glow, animated gradient-border feature card with corner brackets, stats strip, progress bar
   - Shipped /admin/new — password-protected form that commits markdown straight to the repo via the GitHub API. Vercel picks up the push and redeploys.
 
-  🧠 Biggest takeaway
-
-  Silent pipeline failures are the worst kind. Lint passed. Build passed. Deployment succeeded. Nothing on the surface said "your styles are dead on arrival." I had to notice the output didn't match my intent and go spelunking. Lesson: when a tool updates a major version, re-read the migration
-   docs before assuming muscle memory works.
-
-  Also: build a design system first. I was piling on gradient-text and glow effects trying to compensate for a foundation that wasn't rendering. Fancy doesn't fix broken.
-
   🔥 Back to Day 2 tomorrow
 
   - Enemy spawning 👾
