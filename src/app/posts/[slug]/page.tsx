@@ -11,92 +11,100 @@ export async function generateStaticParams() {
   }));
 }
 
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-zinc-50 dark:from-zinc-950 dark:to-zinc-900 px-6 py-16">
-      <article className="mx-auto max-w-3xl">
-        {/* Back Link */}
-        <Link
-          href="/posts"
-          className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium mb-8 transition-colors"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Posts
-        </Link>
+    <div className="mx-auto max-w-2xl px-4 md:px-6 pt-14 pb-24">
 
-        {/* Post Header */}
-        <header className="mb-12">
-          <p className="text-sm font-medium text-zinc-500 dark:text-zinc-500 mb-4">
-            {new Date(post.date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </p>
-          <h1 className="text-5xl sm:text-6xl font-bold text-zinc-950 dark:text-white mb-6 leading-tight">
-            {post.title}
-          </h1>
-          <p className="text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            {post.summary}
-          </p>
-
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-block px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </header>
-
-        {/* Content */}
-        <div className="prose dark:prose-invert max-w-none">
-          <div
-            className="
-              prose 
-              dark:prose-invert
-              prose-headings:text-zinc-900 dark:prose-headings:text-white
-              prose-h1:text-4xl prose-h1:font-bold prose-h1:mt-8 prose-h1:mb-4
-              prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-8 prose-h2:mb-4
-              prose-h3:text-2xl prose-h3:font-bold prose-h3:mt-6 prose-h3:mb-3
-              prose-p:text-zinc-700 dark:prose-p:text-zinc-300 prose-p:leading-relaxed
-              prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-              prose-strong:text-zinc-900 dark:prose-strong:text-white prose-strong:font-bold
-              prose-code:text-zinc-800 dark:prose-code:text-zinc-200 prose-code:bg-zinc-100 dark:prose-code:bg-zinc-800 prose-code:px-2 prose-code:py-1 prose-code:rounded
-              prose-pre:bg-zinc-900 dark:prose-pre:bg-zinc-950 prose-pre:border prose-pre:border-zinc-800
-              prose-blockquote:border-l-blue-600 dark:prose-blockquote:border-l-blue-400 prose-blockquote:pl-4 prose-blockquote:italic
-              prose-ul:list-disc prose-ul:ml-6 prose-li:text-zinc-700 dark:prose-li:text-zinc-300
-              prose-ol:list-decimal prose-ol:ml-6
-              max-w-none
-            "
-            dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-          />
-        </div>
-
-        {/* Footer */}
-        <div className="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+        {/* Back link */}
+        <div>
           <Link
             href="/posts"
-            className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+            className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 hover:text-cyan-400 transition-colors duration-150 mb-10"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Back to All Posts
+            All Posts
           </Link>
         </div>
-      </article>
+
+        <article>
+
+          {/* Header */}
+          <header className="mb-12">
+            <time className="font-mono text-xs text-zinc-600 uppercase tracking-wider block mb-4">
+              {formatDate(post.date)}
+            </time>
+
+            <h1 className="text-2xl md:text-3xl font-bold text-zinc-100 leading-snug mb-4">
+              {post.title}
+            </h1>
+
+            {post.summary && (
+              <p className="text-base text-zinc-400 leading-relaxed mb-5">
+                {post.summary}
+              </p>
+            )}
+
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 font-mono text-xs rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </header>
+
+          {/* Cover image */}
+          {post.image && (
+            <div className="mb-10 rounded-xl overflow-hidden border border-zinc-800">
+              <img
+                src={post.image}
+                alt={post.title}
+                style={{ width: '100%', height: '240px', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          )}
+
+          {/* Divider */}
+          <div className="border-t border-zinc-800 mb-10" />
+
+          {/* Content */}
+          <div
+            className="prose-content"
+            dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+          />
+
+          {/* Footer */}
+          <div className="mt-16 pt-8 border-t border-zinc-800">
+            <Link
+              href="/posts"
+              className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 hover:text-cyan-400 transition-colors duration-150"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to all posts
+            </Link>
+          </div>
+
+        </article>
     </div>
   );
 }

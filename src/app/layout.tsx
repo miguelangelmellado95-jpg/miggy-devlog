@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Miggy Dev Log",
-  description: "A personal game development blog documenting my journey building games and tools.",
+  title: "miggy.log",
+  description: "Software engineer building games, tools & experiments. Build fast. Ship often. Learn in public.",
 };
 
 export default function RootLayout({
@@ -27,10 +27,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col bg-white dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50 transition-colors">
+      <body className="min-h-screen bg-zinc-950 text-zinc-100 transition-colors duration-200">
         <ClientThemeProvider>
           <Navbar />
           <main className="flex-1">{children}</main>

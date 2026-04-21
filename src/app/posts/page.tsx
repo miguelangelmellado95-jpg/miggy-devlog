@@ -1,69 +1,82 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
 export default function PostsPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-zinc-50 dark:from-zinc-950 dark:to-zinc-900 px-6 py-16">
-      <div className="mx-auto max-w-4xl">
-        {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-5xl font-bold text-zinc-950 dark:text-white mb-4">All Posts</h1>
-          <p className="text-xl text-zinc-600 dark:text-zinc-400">
-            A complete archive of my dev logs, lessons learned, and progress updates.
-          </p>
-        </div>
+    <div className="mx-auto max-w-5xl px-4 md:px-6 py-14 md:py-20">
 
-        {/* Posts List */}
-        {posts.length === 0 ? (
-          <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-12 text-center">
-            <p className="text-zinc-600 dark:text-zinc-400">No posts yet. Check back soon!</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {posts.map((post) => (
-              <article
-                key={post.slug}
-                className="group rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-zinc-500 dark:text-zinc-500 mb-2">
-                      {new Date(post.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </p>
-                    <h2 className="text-3xl font-bold text-zinc-950 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      <Link href={`/posts/${post.slug}`}>
-                        {post.title}
-                      </Link>
-                    </h2>
-                    <p className="mt-3 text-zinc-600 dark:text-zinc-400 leading-relaxed">
+      {/* Header */}
+      <div className="mb-10 pb-10 border-b border-zinc-800">
+        <h1 className="text-2xl font-bold text-zinc-100 mb-1">
+          All Posts
+        </h1>
+        <p className="font-mono text-sm text-zinc-600">
+          {posts.length} {posts.length === 1 ? "entry" : "entries"}
+        </p>
+      </div>
+
+      {/* Posts grid */}
+      {posts.length === 0 ? (
+        <p className="text-sm text-zinc-600 py-12 text-center">No posts yet.</p>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {posts.map((post) => (
+            <Link
+              key={post.slug}
+              href={`/posts/${post.slug}`}
+              className="group flex items-stretch border border-zinc-800 hover:border-cyan-400/30 bg-zinc-900/40 hover:bg-zinc-900/70 rounded-xl overflow-hidden card-glow"
+            >
+              {post.image ? (
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  style={{ width: '128px', height: '96px', objectFit: 'cover', flexShrink: 0, display: 'block' }}
+                />
+              ) : (
+                <div style={{ width: '128px', height: '96px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #27272a, #18181b)' }}>
+                  <span style={{ fontSize: '1.5rem' }}>🎮</span>
+                </div>
+              )}
+              <div className="p-5 flex flex-col justify-between flex-1">
+                <div>
+                  <h2 className="font-semibold text-zinc-100 group-hover:text-cyan-400 transition-colors duration-150 mb-1.5 leading-snug">
+                    {post.title}
+                  </h2>
+                  {post.summary && (
+                    <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2">
                       {post.summary}
                     </p>
-                    {post.tags && post.tags.length > 0 && (
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {post.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="inline-block px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="text-3xl group-hover:translate-x-1 transition-transform">→</div>
+                  )}
                 </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </div>
+                <div className="flex items-center gap-2.5 flex-wrap mt-4">
+                  <time className="font-mono text-xs text-zinc-600">
+                    {formatDate(post.date)}
+                  </time>
+                  {post.tags?.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 font-mono text-xs rounded bg-zinc-800 text-zinc-500"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+
     </div>
   );
 }

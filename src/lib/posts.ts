@@ -12,6 +12,7 @@ export type PostMeta = {
   date: string;
   summary: string;
   tags?: string[];
+  image?: string;
 };
 
 export async function getPostBySlug(slug: string) {
