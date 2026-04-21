@@ -2,89 +2,118 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-white text-zinc-950 transition-colors duration-300;
-  }
-
-  html.dark body {
-    @apply bg-zinc-950 text-zinc-50;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
-  }
-
-  h1 {
-    @apply text-4xl;
-  }
-
-  h2 {
-    @apply text-3xl;
-  }
-
-  h3 {
-    @apply text-2xl;
-  }
-
-  a {
-    @apply text-blue-600 dark:text-blue-400 hover:underline transition-colors;
-  }
-
-  code {
-    @apply bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded font-mono text-sm;
-  }
-
-  pre {
-    @apply bg-zinc-100 dark:bg-zinc-900 p-4 rounded-lg overflow-x-auto;
-  }
-}
-
-/* Prose styling for markdown */
+/* Prose styling for markdown content */
 .prose {
-  @apply max-w-none;
+  max-width: none;
 }
 
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  @apply font-bold tracking-tight mt-8 mb-4 first:mt-0;
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #09090b;
 }
 
-.prose h1 {
-  @apply text-4xl;
+html.dark .prose h1,
+html.dark .prose h2,
+html.dark .prose h3,
+html.dark .prose h4,
+html.dark .prose h5,
+html.dark .prose h6 {
+  color: #ffffff;
 }
 
-.prose h2 {
-  @apply text-3xl;
-}
-
-.prose h3 {
-  @apply text-2xl;
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child {
+  margin-top: 0;
 }
 
 .prose p {
-  @apply my-4 leading-7;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
+  color: #3f3f46;
 }
 
-.prose ul, .prose ol {
-  @apply my-4 ml-6;
+html.dark .prose p {
+  color: #d4d4d8;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  margin-left: 2rem;
 }
 
 .prose li {
-  @apply my-2;
+  margin-top: 0.5rem;
+  color: #3f3f46;
+}
+
+html.dark .prose li {
+  color: #d4d4d8;
 }
 
 .prose a {
-  @apply text-blue-600 dark:text-blue-400 hover:underline;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.prose a:hover {
+  text-decoration: underline;
+}
+
+html.dark .prose a {
+  color: #60a5fa;
 }
 
 .prose code {
-  @apply bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded font-mono text-sm;
+  background-color: #f3f4f6;
+  color: #111827;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.875rem;
+}
+
+html.dark .prose code {
+  background-color: #1f2937;
+  color: #e5e7eb;
 }
 
 .prose pre {
-  @apply bg-zinc-100 dark:bg-zinc-900 p-4 rounded-lg overflow-x-auto my-4;
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+html.dark .prose pre {
+  background-color: #111827;
+  border: 1px solid #374151;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-blue-600 dark:border-blue-400 pl-4 my-4 italic text-zinc-600 dark:text-zinc-400;
+  border-left-width: 4px;
+  border-left-color: #2563eb;
+  padding-left: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  color: #4b5563;
+}
+
+html.dark .prose blockquote {
+  border-left-color: #60a5fa;
+  color: #9ca3af;
 }
