@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { MarkdownPreview } from "@/components/MarkdownPreview";
 import { cn } from "@/lib/utils";
+import { parseFrontmatter } from "@/lib/frontmatter";
 import { createPost, type PostResult } from "@/app/admin/new/actions";
 import { updatePost, type UpdateResult } from "@/app/admin/actions";
 
@@ -30,6 +31,25 @@ const BODY_PLACEHOLDER = `## What got done today
 ## Plan for tomorrow
 
 ...`;
+
+const RAW_PLACEHOLDER = `---
+title: "Day 3 – Discord Mod Simulator"
+date: "2026-04-21"
+summary: "Added a second enemy type, built the wave system..."
+tags: ["roblox", "luau", "devlog"]
+image: "/images/posts/day-3.png"
+---
+
+Day 3 wasn't a big flashy change, but it was the tipping point...
+
+## What got done today
+
+- item
+- item`;
+
+type ParseFeedback =
+  | { kind: "ok"; imagePath?: string; missing: string[] }
+  | { kind: "err"; message: string };
 
 function parseTags(raw: string): string[] {
   return raw
@@ -71,7 +91,7 @@ export function PostForm(props: Props) {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<ActionResult | null>(null);
 
-  const [mode, setMode] = useState<"write" | "preview">("write");
+  const [mode, setMode] = useState<"write" | "raw" | "preview">("write");
   const [title, setTitle] = useState(initial.title);
   const [date, setDate] = useState(initial.date);
   const [tagsRaw, setTagsRaw] = useState(initial.tagsRaw);
@@ -79,6 +99,8 @@ export function PostForm(props: Props) {
   const [body, setBody] = useState(initial.body);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [removeImage, setRemoveImage] = useState(false);
+  const [rawMd, setRawMd] = useState("");
+  const [parseFeedback, setParseFeedback] = useState<ParseFeedback | null>(null);
 
   const newImageUrl = useMemo(
     () => (imageFile ? URL.createObjectURL(imageFile) : null),
@@ -104,7 +126,46 @@ export function PostForm(props: Props) {
     setBody("");
     setImageFile(null);
     setRemoveImage(false);
+    setRawMd("");
+    setParseFeedback(null);
     if (passwordRef.current) passwordRef.current.value = "";
+  };
+
+  const handleParseRaw = (switchTo: "write" | "preview") => {
+    if (!rawMd.trim()) {
+      setParseFeedback({ kind: "err", message: "Paste some markdown first." });
+      return;
+    }
+
+    const { data, content } = parseFrontmatter(rawMd);
+
+    if (!data.title && !data.summary && !content.trim()) {
+      setParseFeedback({
+        kind: "err",
+        message:
+          "Couldn't parse frontmatter. Expected a --- block with title / date / summary / tags, then the body.",
+      });
+      return;
+    }
+
+    if (data.title !== undefined) setTitle(data.title);
+    if (data.date !== undefined) setDate(data.date);
+    if (data.summary !== undefined) setSummary(data.summary);
+    if (data.tags !== undefined) setTagsRaw(data.tags.join(", "));
+    if (content) setBody(content.trimEnd());
+
+    const missing: string[] = [];
+    if (!data.title) missing.push("title");
+    if (!data.date) missing.push("date");
+    if (!data.summary) missing.push("summary");
+    if (!content.trim()) missing.push("body");
+
+    setParseFeedback({
+      kind: "ok",
+      imagePath: data.image,
+      missing,
+    });
+    setMode(switchTo);
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -196,6 +257,20 @@ export function PostForm(props: Props) {
         <button
           type="button"
           role="tab"
+          aria-selected={mode === "raw"}
+          onClick={() => setMode("raw")}
+          className={cn(
+            "rounded-md px-3.5 py-1.5 transition-colors",
+            mode === "raw"
+              ? "bg-cyan-400/10 text-cyan-400"
+              : "text-zinc-500 hover:text-zinc-300",
+          )}
+        >
+          Raw MD
+        </button>
+        <button
+          type="button"
+          role="tab"
           aria-selected={mode === "preview"}
           onClick={() => setMode("preview")}
           className={cn(
@@ -227,7 +302,95 @@ export function PostForm(props: Props) {
 
         <div className="h-px bg-zinc-900" />
 
-        {mode === "write" ? (
+        {mode === "raw" && (
+          <div className="flex flex-col gap-4">
+            <div>
+              <Label htmlFor="rawMd" hint="paste full .md including --- frontmatter">
+                Raw Markdown
+              </Label>
+              <Textarea
+                id="rawMd"
+                name="rawMd"
+                rows={20}
+                value={rawMd}
+                onChange={(e) => {
+                  setRawMd(e.target.value);
+                  setParseFeedback(null);
+                }}
+                placeholder={RAW_PLACEHOLDER}
+                className="font-mono text-[13px] leading-relaxed"
+              />
+              <p className="mt-1.5 font-mono text-[10px] text-zinc-600">
+                Recognised frontmatter keys: title · date · summary · tags · image
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => handleParseRaw("preview")}
+              >
+                Parse & Preview
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={() => handleParseRaw("write")}
+              >
+                Parse & Edit
+              </Button>
+              {rawMd && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setRawMd("");
+                    setParseFeedback(null);
+                  }}
+                >
+                  Clear
+                </Button>
+              )}
+            </div>
+
+            {parseFeedback?.kind === "err" && (
+              <div className="rounded-md border border-red-500/30 bg-red-500/5 px-3 py-2 font-mono text-[11px] text-red-300">
+                {parseFeedback.message}
+              </div>
+            )}
+
+            {parseFeedback?.kind === "ok" && (
+              <div className="rounded-md border border-emerald-400/30 bg-emerald-400/5 px-3 py-2 font-mono text-[11px] text-emerald-300">
+                Loaded into form.
+                {parseFeedback.missing.length > 0 && (
+                  <>
+                    {" "}
+                    <span className="text-yellow-300">
+                      Missing: {parseFeedback.missing.join(", ")}.
+                    </span>
+                  </>
+                )}
+                {parseFeedback.imagePath && (
+                  <>
+                    {" "}
+                    <span className="text-zinc-400">
+                      Cover referenced{" "}
+                      <code className="rounded bg-zinc-900 px-1 py-0.5 text-cyan-400">
+                        {parseFeedback.imagePath}
+                      </code>
+                      {" "}— upload the file below if it isn&apos;t committed yet.
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {mode === "write" && (
           <>
             <div>
               <Label htmlFor="title" hint={isEdit ? "→ slug (renames file)" : "→ slug"}>
@@ -351,7 +514,9 @@ export function PostForm(props: Props) {
               />
             </div>
           </>
-        ) : (
+        )}
+
+        {mode === "preview" && (
           <MarkdownPreview
             title={title}
             date={date}
