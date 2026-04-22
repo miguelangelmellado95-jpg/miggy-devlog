@@ -5,7 +5,7 @@ summary: "Added a second enemy type, built the wave system with difficulty scali
 tags: ["roblox", "luau", "devlog", "waves", "gameplay"]
 image: "/images/posts/day-3-discord-mod-simulator.png"
 ---
-Day 3 wasn't a big flashy change, but it was the tipping point. The game stopped feeling like a tech demo.
+Day 2 cont. wasn't a big flashy change, but it was the tipping point. The game stopped feeling like a tech demo.
 
 ## ✅ What got done today
 
