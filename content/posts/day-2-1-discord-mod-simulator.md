@@ -1,5 +1,5 @@
 ---
-title: "Day 3 – Discord Mod Simulator"
+title: "Day 2.1 – Discord Mod Simulator"
 date: "2026-04-21"
 summary: "Added a second enemy type, built the wave system with difficulty scaling, and hit the first 'it actually feels like a game' moment when wave 3 got scary."
 tags: ["roblox", "luau", "devlog", "waves", "gameplay"]
