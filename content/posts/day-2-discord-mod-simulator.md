@@ -1,6 +1,6 @@
 ---
 title: "Day 2 – Discord Mod Simulator"
-date: "2026-04-22"
+date: "2026-04-21"
 summary: "Core loop day: enemy spawning, server health, Ban Hammer, and a Rojo rabbit hole that ate an hour but made the whole setup bulletproof."
 tags: ["roblox", "luau", "devlog", "rojo", "core-loop"]
 image: "/images/posts/day-2-discord-mod-simulator.png"
