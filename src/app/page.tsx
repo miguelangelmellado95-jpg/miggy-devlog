@@ -21,7 +21,7 @@ const PROJECT = {
   emoji: "🎮",
   tagline: "Wave-based survival on Roblox. Social commentary + humor.",
   platform: "ROBLOX",
-  phase: "Phase 2 · Game Feel",
+  phase: "Phase 3 · Retention",
   milestones: [
     // Phase 1 — shipped Day 2
     { label: "Project + Rojo setup", done: true, phase: 1 },
@@ -30,22 +30,22 @@ const PROJECT = {
     { label: "Wave system + 2nd enemy", done: true, phase: 1 },
     { label: "Currency + first upgrade", done: true, phase: 1 },
     { label: "Win condition + wave counter", done: true, phase: 1 },
-    // Phase 2 — Days 3-9
+    // Phase 2 — shipped Day 5
     { label: "Hit effects + feedback", done: true, phase: 2 },
     { label: "More moderation tools", done: true, phase: 2 },
-    { label: "Path variation + new enemies", done: false, phase: 2 },
-    { label: "Real UI pass", done: false, phase: 2 },
+    { label: "Path variation + new enemies", done: true, phase: 2 },
+    { label: "Real UI pass", done: true, phase: 2 },
   ],
 };
 
 const SECONDARY_PROJECT = {
   name: "Content Engine",
   emoji: "🧪",
-  tagline: "Python pipeline — scrape sources, cluster patterns, draft posts. Feeds this blog.",
+  tagline: "Cross-poster CLI — record a clip once, queue it to TikTok / Shorts / Reels / X with per-platform captions and metrics in one place.",
   platform: "PYTHON · SQLITE",
-  phase: "Week 1 · Scraping",
-  done: "Reddit live (public JSON, dedup verified) + SQLite layer",
-  next: "`query` command + README, then YouTube scraper",
+  phase: "Pivoted · Cross-poster",
+  done: "Cross-poster scaffold + `clip add` E2E + 10 clips planned & audited",
+  next: "Sunday batch recording → `caption draft` (Anthropic per platform)",
 };
 
 function formatDate(d: string) {
@@ -254,7 +254,7 @@ export default function HomePage() {
                 <div>
                   <div className="mb-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
                     <span>Milestones</span>
-                    <span className="text-emerald-400">Phase 1 ✓ shipped</span>
+                    <span className="text-emerald-400">Phase 2 ✓ shipped</span>
                   </div>
                   <ul className="space-y-2.5">
                     {PROJECT.milestones.map((m, i) => {

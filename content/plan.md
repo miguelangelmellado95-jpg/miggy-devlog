@@ -15,7 +15,7 @@ bet: "Stay employed, ship games on Roblox until one earns enough to justify quit
 
 #### DMS
 
-- [ ] Phase 2 closeout — path variation, one new enemy type
+- [x] Phase 2 closeout — path variation, one new enemy type
 - [ ] Real UI pass (custom hotbar with hover/equip states)
 - [ ] One progression hook so wave 5 victory unlocks something
 - [ ] Game icon iteration (3 versions, A/B in Studio)
