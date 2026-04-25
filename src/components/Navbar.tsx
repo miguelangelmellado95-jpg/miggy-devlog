@@ -104,7 +104,7 @@ export function Navbar() {
           </Link>
 
           <a
-            href="https://github.com/miggy619/miggy-devlog"
+            href="https://github.com/MiggyDev619/miggy-devlog"
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub source"
@@ -183,7 +183,7 @@ export function Navbar() {
               admin
             </Link>
             <a
-              href="https://github.com/miggy619/miggy-devlog"
+              href="https://github.com/MiggyDev619/miggy-devlog"
               target="_blank"
               rel="noreferrer"
               onClick={closeMenu}

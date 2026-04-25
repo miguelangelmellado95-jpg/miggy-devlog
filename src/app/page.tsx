@@ -121,7 +121,7 @@ export default function HomePage() {
                 </Button>
                 <Button asChild variant="secondary" size="lg">
                   <a
-                    href="https://github.com/miggy619/miggy-devlog"
+                    href="https://github.com/MiggyDev619/miggy-devlog"
                     target="_blank"
                     rel="noreferrer"
                   >

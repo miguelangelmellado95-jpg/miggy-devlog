@@ -15,7 +15,7 @@ export function Footer() {
           </p>
           <nav className="flex items-center gap-6 font-mono text-xs uppercase tracking-[0.15em]">
             <a
-              href="https://github.com/miggy619/miggy-devlog"
+              href="https://github.com/MiggyDev619/miggy-devlog"
               target="_blank"
               rel="noreferrer"
               className="text-zinc-500 transition-colors hover:text-cyan-400"
