@@ -21,7 +21,7 @@ const PROJECT = {
   emoji: "🎮",
   tagline: "Wave-based survival on Roblox. Social commentary + humor.",
   platform: "ROBLOX",
-  phase: "Phase 3 · Retention",
+  phase: "Phase 3 · Launch prep",
   milestones: [
     // Phase 1 — shipped Day 2
     { label: "Project + Rojo setup", done: true, phase: 1 },
@@ -35,6 +35,11 @@ const PROJECT = {
     { label: "More moderation tools", done: true, phase: 2 },
     { label: "Path variation + new enemies", done: true, phase: 2 },
     { label: "Real UI pass", done: true, phase: 2 },
+    // Phase 3 — launch prep
+    { label: "Game-feel polish pass (shockwaves + shake)", done: true, phase: 3 },
+    { label: "Recording session — 7 clips captured", done: true, phase: 3 },
+    { label: "VO + editing pass", done: false, phase: 3 },
+    { label: "Roblox listing + soft launch", done: false, phase: 3 },
   ],
 };
 
@@ -267,7 +272,7 @@ export default function HomePage() {
                 <div>
                   <div className="mb-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
                     <span>Milestones</span>
-                    <span className="text-emerald-400">Phase 2 ✓ shipped</span>
+                    <span className="text-emerald-400">Phase 3 · Launching</span>
                   </div>
                   <ul className="space-y-2.5">
                     {PROJECT.milestones.map((m, i) => {
