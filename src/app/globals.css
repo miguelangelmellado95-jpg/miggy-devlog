@@ -347,6 +347,58 @@ body {
   margin: 2rem 0;
 }
 
+.prose-content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.95em;
+  border: 1px solid #27272a;
+  border-radius: 0.5rem;
+}
+
+.prose-content thead {
+  background-color: rgba(250, 204, 21, 0.06);
+  border-bottom: 1px solid #3f3f46;
+}
+
+.prose-content th {
+  text-align: left;
+  font-weight: 600;
+  color: #fafafa;
+  padding: 0.65rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.prose-content td {
+  padding: 0.65rem 1rem;
+  border-top: 1px solid #27272a;
+  color: #d4d4d8;
+  vertical-align: top;
+}
+
+.prose-content tbody tr:hover {
+  background-color: rgba(250, 204, 21, 0.03);
+}
+
+.prose-content thead:has(th:empty) {
+  display: none;
+}
+
+.prose-content thead:has(th:empty) + tbody td:first-child {
+  font-weight: 600;
+  color: #fafafa;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: rgba(39, 39, 42, 0.4);
+  width: 1%;
+  white-space: nowrap;
+}
+
 /* GFM task list items — disabled checkboxes, HUD-styled.
    Source of truth is the markdown file in git; clicking does nothing. */
 .prose-content li:has(> input[type="checkbox"]) {

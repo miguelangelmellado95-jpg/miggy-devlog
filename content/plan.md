@@ -1,6 +1,6 @@
 ---
 title: "Build Plan"
-lastUpdated: "2026-04-25"
+lastUpdated: "2026-05-04"
 nextReview: "2026-07-25"
 quitTrigger: "$6–8k/month for 6 consecutive months"
 runwayTarget: "24 months"
@@ -11,47 +11,68 @@ bet: "Stay employed, ship games on Roblox until one earns enough to justify quit
 
 **Theme:** Ship one. Start one. Lock the cadence.
 
-### Month 1 — Ship Discord Mod Simulator
+> **Update 2026-05-04** — Server Mod Simulator (the project formerly known as Discord Mod Simulator) shipped publicly on Roblox on **May 3, 2026** — Day 14 of the 30-day plan, **16 days ahead of schedule**. Phase 6 launch post and 14-day post-mortem are live in the dev log. Month 1's "Ship one" is closed; the rest of Month 1 shifts to the post-launch soak + content-engine completion + cadence start.
 
-#### DMS
+### Month 1 — Ship Server Mod Simulator (✓ done, on to soak + cadence)
 
-- [x] Phase 2 closeout — path variation, one new enemy type
-- [ ] Real UI pass (custom hotbar with hover/equip states)
-- [ ] One progression hook so wave 5 victory unlocks something
-- [ ] Game icon iteration (3 versions, A/B in Studio)
-- [ ] Two thumbnails for the Roblox listing
-- [ ] Soft launch — 10 playtest reports collected
-- [ ] Public Roblox launch
+#### SMS / DMS — Launched May 3 ✓
+
+- [x] Phase 2 closeout — path variation, one new enemy type *(closed Day 12 as bookkeeping; recording session May 1 was the de-facto closing beat)*
+- [x] Real UI pass (custom hotbar with hover/equip states) *(shipped Day 11 — health bar + live wave count + cooldown panel; custom hotbar deliberately skipped per Phase 5 cost-benefit call)*
+- [x] One progression hook so wave 5 victory unlocks something *(XP / level system + 3 tool unlock gates + 4 cooldown upgrades shipped in Phase 3)*
+- [x] Game icon iteration (3 versions, A/B in Studio) *(single 512×512 PNG shipped Day 30 — brand-yellow ban hammer + electric energy + visible enemies + scattered coins)*
+- [x] Two thumbnails for the Roblox listing *(one 1920×1080 cinematic shipped — player Mod with hood + headphones, all 4 tools labeled, troll/Karen framing)*
+- [x] Soft launch — 10 playtest reports collected *(soft launch happened May 3; structured 10-report collection rolls into post-launch soak)*
+- [x] Public Roblox launch *(live at roblox.com/games/94039045722660/Server-Mod-Simulator — public privacy flipped on, all-ages publishing tier unlocked)*
 - [ ] Roblox analytics dashboard set up (DAU, session length, Robux)
+
+#### SMS post-launch soak (added 2026-05-04)
+
+- [ ] One-week soak window — no breaking changes for first 7 days (until 2026-05-10)
+- [ ] First-week metrics watch — active players, session length, gamepass conversion, drop-off points, exploits, touch-UX scaling
+- [ ] Player-feedback-driven iteration — pull from §9 backlog based on real complaints (Mute Gun aim, per-element responsive layout, settings menu, hover tooltips, ambient sound)
+- [ ] Phase 4 monetization rebalance if conversion data warrants it — Coin Pack pricing, gamepass effect strength, unlock cost curve
 
 #### Content engine (post-pivot)
 
 - [x] Day 1 commits A → B → C landed (clip add working)
-- [ ] `caption draft` command shipped
+- [x] Cross-poster scaffold + `clip add` E2E *(Day 5 pivot — ingestion pipeline shelved, cross-poster shape locked)*
+- [x] First 10 DMS clips planned & audited against source *(Day 6 — `docs/clips.md`, audience-balanced 5 player / 5 dev split, audit caught 5 material issues)*
+- [x] Sunday recording session executed *(May 1 overnight push — 7 of 8 clips captured, plus 2 game-feel polish commits as a side-effect)*
+- [ ] Clip editing pass — voiceovers for Clips 05 + 07, edits per `recording-status.md`
+- [ ] `caption draft` command shipped (Anthropic per platform)
 - [ ] `schedule` + `queue` commands working
 - [ ] YouTube Shorts metrics auto-pull working
 - [ ] Manual metrics entry for TikTok/IG/X
-- [ ] First 10 DMS clips recorded + scheduled
+- [ ] First 7 SMS clips posted (8-clip rotation collapsed to 7 after Clip 06 was dropped)
 
 #### Audience baseline
 
 - [ ] Cross-posting live across TikTok, YT Shorts, IG Reels, X
-- [ ] 3 clips/week cadence locked (Mon/Wed/Fri)
-- [ ] Devlog post for every milestone above
+- [ ] 3 clips/week cadence locked (Mon/Wed/Fri starting after editing pass — last post Mon May 18)
+- [x] Devlog post for every milestone above *(holding the line — Day 7 launch post + Day 6 marathon post live)*
 
-**Month 1 win condition:** DMS publicly playable. 12+ clips posted. Content engine running unattended.
+#### Tableword (parallel work, not in original Month 1 scope)
+
+> Live multiplayer Bible study app. Not on the original Roblox / content-engine path; treat as "ship-when-ready" side work that doesn't compete for Month 1 attention.
+
+- [x] v1 — all 27 NT books authored, Genesis 1–14, patristic Phase 1 (267 cards), heartbeat resync shipped
+- [x] v2 platform spec written end-to-end (~700 lines + 3 tier docs)
+- [ ] v2 Tier A Phase A — Supabase auth + profiles + study counts (1.5–2 weeks if not sidetracked by content runs)
+
+**Month 1 win condition:** ~~SMS publicly playable.~~ ✓ done **16 days early.** | 7+ clips posted (was 12+). | Content engine running unattended.
 
 ### Month 2 — Game 2 prototype, audience signal
 
-#### DMS (maintenance mode)
+#### SMS (maintenance mode)
 
 - [ ] Two post-launch patches based on real player data
-- [ ] Post-mortem devlog — what worked, what didn't
+- [ ] Post-mortem devlog — what worked, what didn't *(partial — 14-day post-mortem live in launch post; full post-mortem after first month of metrics)*
 - [ ] One bug-fix patch per week max, no new features
 
-#### Game 2 (Roblox, different genre from DMS)
+#### Game 2 (Roblox, different genre from SMS)
 
-- [ ] Genre picked based on DMS audience overlap data
+- [ ] Genre picked based on SMS audience overlap data *(needs first-month metrics to be meaningful)*
 - [ ] 1-page design doc with hard scope cap (4 weeks to playable)
 - [ ] New repo, fresh `CLAUDE.md`, fresh `DEVLOG-NOTES.md`
 - [ ] Phase 1 core loop playable
@@ -102,7 +123,7 @@ This half of the plan is intentionally lighter on detail — month 4–6 priorit
 
 ### Months 4–5 — Game 3 OR Steam prototype (one, not both)
 
-#### Path A: Roblox Game 3 (default if neither DMS nor Game 2 broke through)
+#### Path A: Roblox Game 3 (default if neither SMS nor Game 2 broke through)
 
 - [ ] Apply pattern-matched lessons from Games 1 and 2
 - [ ] 6-week scope cap — same vertical-slice discipline

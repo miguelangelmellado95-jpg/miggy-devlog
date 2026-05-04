@@ -7,7 +7,7 @@ type ContainerProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const SIZE_MAP = {
-  reader: "max-w-2xl",
+  reader: "max-w-4xl",
   default: "max-w-5xl",
   wide: "max-w-6xl",
 } as const;
